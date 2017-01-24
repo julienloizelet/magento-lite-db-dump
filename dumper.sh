@@ -60,9 +60,9 @@ do
 IGNORE_TABLES="$IGNORE_TABLES --ignore-table=$DBNAME.$excluded "
 done
 
-nice -n 20 mysqldump -u$USERNAME -p$PASSWORD $DBNAME --no-data --compress --skip-lock-tables --verbose > $DBNAME.dump.sql
-nice -n 20 mysqldump -u$USERNAME -p$PASSWORD $DBNAME --no-create-db --no-create-info --single-transaction --quick --compress --skip-lock-tables --verbose \
-    $IGNORE_TABLES
+nice -n 20 mysqldump -h$HOST -u$USERNAME -p$PASSWORD $DBNAME --no-data --compress --skip-lock-tables --verbose > $DBNAME.dump.sql &&
+nice -n 20 mysqldump -h$HOST -u$USERNAME -p$PASSWORD $DBNAME --no-create-db --no-create-info --single-transaction --quick --compress --skip-lock-tables --verbose \
+    $IGNORE_TABLES \
     >> $DBNAME.dump.sql
 if [ "$GZIPFLAG" == 1 ]; then
     gzip $DBNAME.dump.sql
